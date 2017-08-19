@@ -1,0 +1,38 @@
+table,tr,td{
+	background-color:rgb(222,222,222);/*cor do fundo da tabela*/
+}
+
+table{
+	width:1200px;
+	margin:0 auto;/*centralizando*/
+}
+
+tr,td{
+	height:45px
+}
+
+h1{
+	font-size:60px;
+	color:blue
+}
+		
+h3{
+	display:inline
+}
+
+/*Cores respectivas de cada elemento*/
+.snakeCorpo {
+	background-color: black;
+}
+
+.snakeRabo {
+	background-color: magenta !important;
+}
+
+.snakeCabeca {
+	background-color: purple;
+}
+
+.snakeComida {
+	background-color: green;
+}
