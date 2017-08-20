@@ -8,13 +8,13 @@ var interval;
 var arraydirecoes = []
 
 $(document).ready( function() {
-	document.querySelector('#tabela').innerHTML = new Array(14).join("<tr>" + new Array(21).join("<td></td>") + "</tr>");
+	$('#tabela').html(new Array(14).join('<tr>' + 	 Array(21).join('<td></td>') + '</tr>'));
 		$('#botao').click( function() {
-			if ($('#botao').html() == "Start") {
+			if ($('#botao').html('Start')) {
 				startgame();
-			} else if ($('#botao').html() == "Pause") {
+			} else if ($('#botao').html('Pause')) {
 				pausegame();
-			} else if ($('#botao').html() == "Voltar") {
+			} else if ($('#botao').html('Voltar')) {
 				despause();
 			} else {
 				$('#botao').html('Restart');
@@ -32,7 +32,7 @@ function startgame() {
 	var array = $('.snakeCorpo, .snakeRabo, .snakeCabeca, .snakeComida');
 	
 	for (var i = 0; i < array.length; i++) {
-			array[i].removeAttr('class');
+		array[i].attr('class','');
 	}	
 	
 	blocosl[0] = 1;
@@ -45,8 +45,8 @@ function startgame() {
 	
 	nascecomida();
 	
-	$("#botao").html = "Pause";
-	$("#status").html = "Status: jogando";
+	$('#botao').html('Pause');
+	$('#status').html('Status: jogando');
 	
 	$('#tabela tr:eq(0) td:eq(0)').addClass('snakeRabo');
 	$('#tabela tr:eq(0) td:eq(1)').addClass('snakeCorpo');
@@ -56,14 +56,14 @@ function startgame() {
 };
 			
 function pausegame() {
-	$("#botao").html = "Voltar";
-	$("#status").html = "Status: pausado";
+	$('#botao').html('Voltar');
+	$('#status').html('Status: pausado');
 	clearInterval(interval);
 }
 			
 function despause() {
-	$("#botao").html = "Pause";
-	$("#status").html = "Status: jogando";
+	$('#botao').html('Pause');
+	$('#status').html('Status: jogando');
 	clearInterval(interval);
 	interval = setInterval(anda, tempo);
 }
@@ -89,16 +89,16 @@ function nascecomida() {
 			
 function morre() {
 	clearInterval(interval);
-	$('#botao').html = "Restart";
-	$('#status').html = "Morto";
-	$('#tabela tr:eq(' + linhacomida  + ') td:eq(' + colunacomida + ')').removeAttr('class');
+	$('#botao').html('Restart');
+	$('#status').html('Morto');
+	$('#tabela tr:eq(' + linhacomida  + ') td:eq(' + colunacomida + ')').removeClass('snakeComida');
 };
 			
 function come() {
 	blocosl.push(blocosl[blocosl.length - 1]);
 	blocoscol.push(blocoscol[blocoscol.length - 1]);
 	
-	$("#pontos").html = "Pontos: " + (blocoscol.length - 3);
+	$('#pontos').html('Pontos: ' + (blocoscol.length - 3));
 	nascecomida();
 	
 	if (tempo > 100) {
@@ -112,12 +112,12 @@ function anda() {
 	var lrabo = blocosl[blocosl.length - 1];
 	var crabo = blocoscol[blocoscol.length - 1];
 	
-	$('#tabela tr:eq(' + lrabo + ') td:eq(' + crabo + ')').removeAttr('class');
+	$('#tabela tr:eq(' + lrabo + ') td:eq(' + crabo + ')').removeClass('snakeRabo');
 	
 	for (var i = blocosl.length - 1; i >= 1; i-- ) {
 		blocosl[i] = blocosl[i - 1];
 		blocoscol[i] = blocoscol[i - 1];
-		var className = i == blocosl.length - 1 ? "snakeRabo" : "snakeCorpo";
+		var className = i == blocosl.length - 1 ? 'snakeRabo' : 'snakeCorpo';
 		$('#tabela tr:eq(' + blocosl[i] + ') td:nth-child(' + blocoscol[i] + ')').addClass(className);
 	}
 	
