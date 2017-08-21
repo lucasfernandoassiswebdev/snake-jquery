@@ -7,14 +7,14 @@ var direcaoatual;
 var interval;
 var arraydirecoes = []
 
-$(document).ready( function() {
-	$('#tabela').html(new Array(14).join('<tr>' + Array(21).join('<td></td>') + '</tr>'));
+$(document).ready(function(){
+	$("#tabela").html(new Array(14).join("<tr>" + new Array(21).join("<td></td>") + "</tr>"));
 		$('#botao').click( function() {
-			if ($('#botao').html('Start')) {
+			if ($('#botao').html() == "Start") {
 				startgame();
-			} else if ($('#botao').html('Pause')) {
+			} else if ($('#botao').html() == "Pause") {
 				pausegame();
-			} else if ($('#botao').html('Voltar')) {
+			} else if ($('#botao').html() == "Voltar") {
 				despause();
 			} else {
 				$('#botao').html('Restart');
@@ -29,33 +29,35 @@ function startgame() {
 	blocosl = []
 	tempo = 300;
 	
-	$('.snakeCorpo, .snakeRabo, .snakeCabeca, .snakeComida').remove();
+	$('.snakeCorpo, .snakeRabo, .snakeCabeca, .snakeComida').attr('class','');
 	
 	blocosl[0] = 1;
     blocoscol[0] = 3;
+	arraydirecoes.push('D');
 	for(i = 0; i < 2; i++)
 	{
 		blocosl.push(blocosl[0]);
-		blocoscol.push(blocoscol[0] - i);	
 	}
-	arraydirecoes.push('D');
+	for(i = 1; i < 3; i++)
+	{
+		blocoscol.push(blocoscol[0] - i);
+	}	
 	
 	nascecomida();
 	
 	$('#botao').html('Pause');
 	$('#status').html('Status: jogando');
 	
-	$('#tabela tr:nth-child(1) td:nth-child(1)').addClass('snakeRabo');
-	$('#tabela tr:nth-child(1) td:nth-child(2)').addClass('snakeCorpo');
-	$('#tabela tr:nth-child(1) td:nth-child(3)').addClass('snakeCabeca');
-	
+	$('#tabela tr:eq(0) td:eq(0)').addClass('snakeRabo');
+	$('#tabela tr:eq(0) td:eq(2)').addClass('snakeCorpo');
+	$('#tabela tr:eq(0) td:eq(1)').addClass('snakeCabeca');
 	
 	interval = setInterval(anda, tempo);
 };
 			
 function pausegame() {
-	$('#botao').html('Voltar');
-	$('#status').html('Status: pausado');
+	$("#botao").html('Voltar');
+	$("#status").html("Status: pausado");
 	clearInterval(interval);
 }
 			
@@ -73,7 +75,7 @@ function verificacomida(x,y) {
 				colunacomida = Math.floor((Math.random() * 20) + 1);
 			}
 		}
-		$('#tabela tr:nth-child(' + linhacomida + ') td:nth-child(' + colunacomida + ')').addClass('snakeComida');
+		$('#tabela tr:eq(' + (linhacomida - 1) + ') td:eq(' + (colunacomida - 1) + ')').addClass('snakeComida');
 };
 		
 function nascecomida() {
@@ -84,16 +86,16 @@ function nascecomida() {
 			
 function morre() {
 	clearInterval(interval);
-	$('#botao').html('Restart');
-	$('#status').html('Morto');
-	$('#tabela tr:nth-child(' + linhacomida+ ') td:nth-child(' + colunacomida + ')').removeClass('snakeComida');
+	$('#botao').html("Restart");
+	$('#status').html("Morto");
+	$('#tabela tr:eq(' + (linhacomida - 1) + ') td:eq(' + (colunacomida - 1) + ')').attr('class','');
 };
 			
 function come() {
 	blocosl.push(blocosl[blocosl.length - 1]);
 	blocoscol.push(blocoscol[blocoscol.length - 1]);
 	
-	$('#pontos').html('Pontos: ' + (blocoscol.length - 3));
+	$("#pontos").html("Pontos: " + (blocoscol.length - 3));
 	nascecomida();
 	
 	if (tempo > 100) {
@@ -107,13 +109,13 @@ function anda() {
 	var lrabo = blocosl[blocosl.length - 1];
 	var crabo = blocoscol[blocoscol.length - 1];
 	
-	$('#tabela tr:nth-child(' + lrabo + ') td:nth-child(' + crabo + ')').removeClass('snakeRabo');
+	$('#tabela tr:eq(' + (lrabo - 1) + ') td:eq(' + (crabo - 1) + ')').removeClass('snakeRabo');
 	
 	for (var i = blocosl.length - 1; i >= 1; i-- ) {
 		blocosl[i] = blocosl[i - 1];
 		blocoscol[i] = blocoscol[i - 1];
-		var className = i == (blocosl.length - 1) ? 'snakeRabo' : 'snakeCorpo';
-		$('#tabela tr:nth-child(' + blocosl[i] + ') td:nth-child(' + blocoscol[i] + ')').addClass(className);
+		var className = i == blocosl.length - 1 ? "snakeRabo" : "snakeCorpo";
+		$('#tabela tr:eq(' + (blocosl[i] - 1) + ') td:eq(' + (blocoscol[i] - 1) + ')').attr('class',className);
 	}
 	
 	direcaoatual = arraydirecoes[arraydirecoes.length - 1];
@@ -149,7 +151,7 @@ function anda() {
 		arraydirecoes.splice(arraydirecoes.length - 1, 1);
 	}
 	
-	$('#tabela tr:nth-child(' + blocosl[0]+ ') td:nth-child(' + blocoscol[0] + ')').addClass('snakeCabeca');
+	$('#tabela tr:eq(' + (blocosl[0]-1) + ') td:eq(' + (blocoscol[0]-1) + ')').addClass('snakeCabeca');
 	
 	if (blocosl[0] == linhacomida && blocoscol[0] == colunacomida)
 		come();
